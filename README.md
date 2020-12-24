@@ -27,6 +27,17 @@ In cluster mode, only **1** worker instance will be enabled and work to get ping
 pm2 start ecosystem.config.js
 ```
 
+## AlpineLinux only
+
+In alpine linux, some commands required by this package may not enough to work.
+You need to install following package to override default one.
+
+- https://pkgs.alpinelinux.org/packages?name=iputils&branch=edge
+
+```sh
+apk add iputils
+```
+
 # Config
 
 As there is nothing to secure in config file, you can just edit provided `config.js` file.
