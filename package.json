@@ -5,7 +5,8 @@
   "author": "Seia-Soto <seia@outlook.kr>",
   "license": "MIT",
   "scripts": {
-    "start": "cross-env DEBUG=discord-watchtower* node ."
+    "start": "cross-env DEBUG=discord-watchtower* node .",
+    "debug": "cross-env DEBUG=* node ."
   },
   "devDependencies": {
     "eslint": "^6.8.0",

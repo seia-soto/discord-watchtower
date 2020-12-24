@@ -91,7 +91,7 @@ module.exports = region => {
               domain,
               ip: result.numeric_host,
               latency: result.avg,
-              packetLost: Number(result.packetLost),
+              packetLost: result.packetLost || 0,
               updatedAt: startTime
             })
           } else {
