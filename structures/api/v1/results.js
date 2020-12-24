@@ -1,3 +1,4 @@
+const config = require('../../../config')
 const { knex } = require('../../database')
 
 const getResults = {
@@ -17,7 +18,7 @@ const getResults = {
 
     const results = await knex('results')
       .select('*')
-      .whereBetween('updatedAt', [from - (5 * 1000 * 60), from])
+      .whereBetween('updatedAt', [from - config.api.serverResultsIn, from])
 
     return results
   }
