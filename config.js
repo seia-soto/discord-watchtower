@@ -1,4 +1,7 @@
 module.exports = {
+  api: {
+    port: 7003
+  },
   database: {
     client: 'sqlite3',
     connection: {

@@ -1,5 +1,8 @@
+const fastify = require('fastify')
 const schedule = require('node-schedule')
+const qs = require('qs')
 const {
+  api,
   database,
   tasks,
   utils
@@ -47,4 +50,28 @@ module.exports = (async () => {
   tasks.removeOldRecords()
 
   schedule.scheduleJob('*/5 * * * *', tasks.removeOldRecords)
+
+  debug('creating api server session on port:', config.api.port)
+
+  const server = fastify({
+    querystringParser: q => qs.parse(q)
+  })
+
+  server.get('/', async (req, reply) => reply.redirect('https://github.com/Seia-Soto/discord-watchtower'))
+
+  const versions = Object.keys(api)
+
+  for (let i = 0, l = versions.length; i < l; i++) {
+    const version = versions[i]
+
+    debug('registering api version:', version)
+
+    server.register(api[version], { prefix: '/api/' + version })
+  }
+
+  try {
+    await server.listen(config.api.port)
+  } catch (error) {
+    debug('error while processing request:', error)
+  }
 })()
