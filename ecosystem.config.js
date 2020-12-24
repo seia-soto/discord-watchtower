@@ -14,7 +14,8 @@ module.exports = {
       env: {
         DEBUG: 'discord-watchtower*'
       },
-      exec_mode: 'cluster'
+      exec_mode: 'cluster',
+      instances: 'auto'
     }
   ]
 }

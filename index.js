@@ -52,29 +52,29 @@ module.exports = (async () => {
     tasks.removeOldRecords()
 
     schedule.scheduleJob('*/5 * * * *', tasks.removeOldRecords)
-  }
+  } else {
+    debug('creating api server session on port:', config.api.port)
 
-  debug('creating api server session on port:', config.api.port)
+    const server = fastify({
+      querystringParser: q => qs.parse(q)
+    })
 
-  const server = fastify({
-    querystringParser: q => qs.parse(q)
-  })
+    server.get('/', async (req, reply) => reply.redirect('https://github.com/Seia-Soto/discord-watchtower'))
 
-  server.get('/', async (req, reply) => reply.redirect('https://github.com/Seia-Soto/discord-watchtower'))
+    const versions = Object.keys(api)
 
-  const versions = Object.keys(api)
+    for (let i = 0, l = versions.length; i < l; i++) {
+      const version = versions[i]
 
-  for (let i = 0, l = versions.length; i < l; i++) {
-    const version = versions[i]
+      debug('registering api version:', version)
 
-    debug('registering api version:', version)
+      server.register(api[version], { prefix: '/api/' + version })
+    }
 
-    server.register(api[version], { prefix: '/api/' + version })
-  }
-
-  try {
-    await server.listen(config.api.port)
-  } catch (error) {
-    debug('error while processing request:', error)
+    try {
+      await server.listen(config.api.port)
+    } catch (error) {
+      debug('error while processing request:', error)
+    }
   }
 })()
